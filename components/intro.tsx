@@ -1,6 +1,4 @@
-import { CMS_NAME } from "../lib/constants";
-import Switcher from "./Switcher";
-import CoverImage from "./cover-image";
+import Link from "next/link";
 import Image from "next/image";
 
 const Intro = () => {
@@ -55,9 +53,12 @@ const Intro = () => {
                     GitHub activity Summarizer
                   </span>
                 </span>
-                <span className="pl-6 text-green-600 group-hover:text-green-300 dark:group-hover:text-purple-600 transition duration-200">
+                <Link
+                  className="pl-6 text-green-600 group-hover:text-green-300 dark:group-hover:text-purple-600 transition duration-200"
+                  href="/summaries/github"
+                >
                   See what's I was up to &rarr;
-                </span>
+                </Link>
               </button>
             </div>
           </div>
