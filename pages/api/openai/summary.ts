@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import openai from "../../utils/openai";
+import openai from "../../../utils/openai";
 
 async function summarizeGitHubActivity(
   req: NextApiRequest,
