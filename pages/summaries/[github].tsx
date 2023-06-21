@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "../../components/container";
 import Layout from "../../components/layout";
-import Loader from "../../components/loader";
 import TextPlaceholder from "../../components/textPlaceholder";
+import useLoader from "../../hooks/useLoader";
 
 const GitHubSummary = () => {
   const [summary, setSummary] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { isLoading, setIsLoading } = useLoader();
 
   useEffect(() => {
     const fetchGitHubSummary = async () => {
