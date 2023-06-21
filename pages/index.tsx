@@ -58,8 +58,3 @@ export const getStaticProps = async () => {
     props: { allPosts },
   };
 };
-
-type Repo = {
-  name: string;
-  stargazers_count: number;
-};

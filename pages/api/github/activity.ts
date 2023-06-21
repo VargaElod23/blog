@@ -2,14 +2,16 @@ import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function fetchGitHubActivity(req: NextApiRequest, res: NextApiResponse) {
+  const days = Number(req.query.days);
+
   const currentDate = new Date();
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(currentDate.getDate() - 7);
+  const daysAgo = new Date();
+  daysAgo.setDate(currentDate.getDate() - days);
 
   try {
     const user = process.env.NEXT_PUBLIC_GH_USER || "VargaElod23";
     const response = await axios.get(
-      `https://api.github.com/users/${user}/events?since=${sevenDaysAgo}`,
+      `https://api.github.com/users/${user}/events?since=${daysAgo}`,
       {
         headers: {
           Accept: "application/vnd.github.v3+json",
