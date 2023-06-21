@@ -34,6 +34,12 @@ module.exports = {
         sm: "0 5px 10px rgba(0, 0, 0, 0.12)",
         md: "0 8px 30px rgba(0, 0, 0, 0.12)",
       },
+      styles: {
+        a: {
+          color: "blue-600", // Change the color as per your preference
+          textDecoration: "none", // Add underline to links
+        },
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

@@ -12,7 +12,8 @@ const GitHubSummary = () => {
   useEffect(() => {
     const fetchGitHubSummary = async () => {
       try {
-        const response = await axios.get("/api/openai/summary"); // Change the API route path as per your setup
+        setIsLoading(true);
+        const response = await axios.get("/api/openai/summary?days=14"); // Change the API route path as per your setup
         const cleanedSummary = response.data.summary.content
           .replace("+", "")
           .replace("'", "");
