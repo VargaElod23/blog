@@ -28,7 +28,7 @@ const Navbar = () => {
               className={`block py-2 pl-3 pr-4 ${isActive(
                 "/"
               )} dark:${isActiveDark("/")} ${
-                isActiveRoute("/") ? "bg-blue-300" : ""
+                isActiveRoute("/") ? "max-[765px]:bg-blue-300" : ""
               } rounded md:bg-transparent md:p-0`}
               aria-current="page"
             >
@@ -39,7 +39,7 @@ const Navbar = () => {
             <Link
               href="/about"
               className={`block py-2 pl-3 pr-4 ${isActive("/about")} ${
-                isActiveRoute("/about") ? "bg-blue-300" : ""
+                isActiveRoute("/about") ? "max-[765px]:bg-blue-300" : ""
               } rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:${isActiveDark(
                 "/about"
               )} dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}
@@ -51,7 +51,7 @@ const Navbar = () => {
             <a
               href="/works"
               className={`block py-2 pl-3 pr-4 ${isActive("/works")} ${
-                isActiveRoute("/works") ? "bg-blue-300" : ""
+                isActiveRoute("/works") ? "max-[765px]:bg-blue-300" : ""
               } rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:${isActiveDark(
                 "/works"
               )} dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}
@@ -63,7 +63,7 @@ const Navbar = () => {
             <a
               href="/blog"
               className={`block py-2 pl-3 pr-4 ${isActive("/blog")} ${
-                isActiveRoute("/blog") ? "bg-blue-300" : ""
+                isActiveRoute("/blog") ? "max-[765px]:bg-blue-300" : ""
               } rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:${isActiveDark(
                 "/blog"
               )} dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}
