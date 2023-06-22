@@ -29,10 +29,7 @@ const Meta = () => {
         />
         <meta name="theme-color" content="#000" />
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-        <meta
-          name="description"
-          content={`A statically generated blog example using Next.js and ${CMS_NAME}.`}
-        />
+        <meta name="description" content={`Welcome to my personal blog!`} />
         <meta property="og:image" content={HOME_OG_IMAGE_URL} />
       </Head>
       <Script
