@@ -5,25 +5,35 @@ async function fetchCommitCountOfLanguage(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const language = req.query.language;
+  const since = req.query.since;
   const currentDate = new Date();
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(currentDate.getDate() - 7);
-  let totalCommits = 0;
+  currentDate.setDate(currentDate.getDate() - Number(since));
   try {
     const user = process.env.NEXT_PUBLIC_GH_USER || "VargaElod23";
-    const searchResponse = await axios.get(
-      `https://api.github.com/search/commits?q=author:${user}`
+    const response = await axios.get(
+      `https://api.github.com/users/${user}/events?since=${currentDate}`,
+      {
+        headers: {
+          Accept: "application/vnd.github.v3+json",
+        },
+      }
     );
-
-    // Step 2: Process the search results
-    const commits = searchResponse.data.items;
-    // Step 4: Filter commits by language
-    console.log(commits[0]);
-
-    // Step 5: Add the number of commits to the total
-    totalCommits += commits.length;
-    res.json({ totalCommits });
+    const activity = response.data;
+    const relevantDetails = activity.map((item: any) => {
+      let commitMessages = [];
+      if (item.payload.commits !== undefined) {
+        console.log(item.payload.commits.length);
+        commitMessages = item.payload.commits
+          .filter(
+            (commit) => commit.author.name.toLowerCase() === user.toLowerCase()
+          )
+          .map((commit) => commit.message);
+      }
+      return commitMessages.length;
+    });
+    res.json(relevantDetails.reduce((a, b) => a + b, 0));
+    // Further processing or handling of the activity data
+    // ...
   } catch (error) {
     console.error("Error fetching GitHub activity:", error);
   }
