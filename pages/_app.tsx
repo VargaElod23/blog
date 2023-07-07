@@ -1,4 +1,5 @@
 import { AppProps } from "next/app";
+import { Analytics } from "@vercel/analytics/react";
 import "../styles/index.css";
 import { useRouter } from "next/router";
 import React from "react";
@@ -37,6 +38,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       {isLoading && <Loader />}
       <Component {...pageProps} />
+      <Analytics />
     </>
   );
 }
