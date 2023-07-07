@@ -4,15 +4,18 @@ import Container from "../../components/container";
 import Layout from "../../components/layout";
 import TextPlaceholder from "../../components/textPlaceholder";
 import useLoader from "../../hooks/useLoader";
+import ErrorContainer from "../../components/error";
 
 const GitHubSummary = () => {
   const [summary, setSummary] = useState<string[]>([]);
+  const [error, setError] = useState<boolean>(false);
   const { isLoading, setIsLoading } = useLoader();
 
   useEffect(() => {
     const fetchGitHubSummary = async () => {
       try {
         setIsLoading(true);
+        setError(false);
         const response = await axios.get("/api/openai/summary?days=14"); // Change the API route path as per your setup
         const cleanedSummary = response.data.summary.content
           .replace("+", "")
@@ -22,6 +25,7 @@ const GitHubSummary = () => {
         console.log({ summary: cleanedSummary.split("\n") });
       } catch (error) {
         console.error("Error fetching GitHub summary:", error);
+        setError(true);
       }
     };
 
@@ -40,6 +44,8 @@ const GitHubSummary = () => {
               <>
                 <TextPlaceholder />
               </>
+            ) : error ? (
+              <ErrorContainer />
             ) : (
               summary.map((item, index) => (
                 <TypingText key={index} text={item} />
