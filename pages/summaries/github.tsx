@@ -99,7 +99,7 @@ const GitHubSummary = () => {
             ) : (
               !showSearch && (
                 <>
-                  <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 justify-between">
+                  <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 justify-between mb-12">
                     <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg  mt-4">
                       <h3 className="text-lg font-semibold">
                         Total Number of Commits
