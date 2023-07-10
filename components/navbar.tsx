@@ -1,7 +1,6 @@
-import Image from "next/image";
-import Switcher from "./Switcher";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Switcher from "./Switcher";
 
 const Navbar = () => {
   const router = useRouter();
