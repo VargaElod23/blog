@@ -10,11 +10,10 @@ import ErrorContainer from "../../components/error";
 
 const GitHubSummary = () => {
   const [timeframe, setTimeframe] = useState<number>(0);
-  const [forksCount, setForksCount] = useState<number>(5);
-  const [commitCount, setCommitCount] = useState<number>(5);
-  const [prCount, setPrCount] = useState<number>(5);
-  const [commentCount, setCommentCount] = useState<number>(5);
-  const [issueCount, setIssueCount] = useState<number>(5);
+  const [commitCount, setCommitCount] = useState<number>(0);
+  const [prCount, setPrCount] = useState<number>(0);
+  const [contributionCount, setContributionCount] = useState<number>(0);
+  const [issueCount, setIssueCount] = useState<number>(0);
   const [summary, setSummary] = useState<string[]>([]);
   const [error, setError] = useState<boolean>(false);
   const { isLoading, setIsLoading } = useLoader();
@@ -23,14 +22,29 @@ const GitHubSummary = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setShowSearch(false);
+    getStats();
     getSummary();
   };
+
+  const getStats = useCallback(async () => {
+    try {
+      const response = await axios.get(`/api/github/stats?since=${timeframe}`);
+      setCommitCount(response.data.commits);
+      setPrCount(response.data.prs);
+      setContributionCount(response.data.contributions);
+      setIssueCount(response.data.issues);
+    } catch (error) {
+      console.error("Error fetching GitHub stats");
+    }
+  }, [timeframe]);
 
   const getSummary = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(false);
-      const response = await axios.get(`/api/openai/summary?days=${timeframe}`);
+      const response = await axios.get(
+        `/api/openai/summary?since=${timeframe}`
+      );
       const cleanedSummary = response.data.summary.content
         .replace("+", "")
         .replace("'", "");
@@ -102,14 +116,14 @@ const GitHubSummary = () => {
                   <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 justify-between mb-12">
                     <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg  mt-4">
                       <h3 className="text-lg font-semibold">
-                        Total Number of Commits
+                        Total Number of Contributions
                       </h3>
                       <p
                         className={`text-3xl font-bold  ${
-                          timeframe >= commitCount ? "text-green-800" : ""
+                          timeframe <= contributionCount ? "text-green-800" : ""
                         } text-center`}
                       >
-                        26
+                        {contributionCount}
                       </p>
                     </div>
 
@@ -119,23 +133,23 @@ const GitHubSummary = () => {
                       </h3>
                       <p
                         className={`text-3xl font-bold ${
-                          timeframe / 2 >= prCount ? "text-green-800" : ""
-                        }`}
+                          timeframe / 5 <= prCount ? "text-green-800" : ""
+                        } text-center`}
                       >
-                        12
+                        {prCount}
                       </p>
                     </div>
 
                     <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
                       <h3 className="text-lg font-semibold">
-                        Number of Comments
+                        Number of Commits
                       </h3>
                       <p
                         className={`text-3xl font-bold ${
-                          timeframe >= commentCount ? "text-green-800" : ""
-                        }`}
+                          timeframe <= commitCount ? "text-green-800" : ""
+                        } text-center`}
                       >
-                        48
+                        {commitCount}
                       </p>
                     </div>
 
@@ -145,27 +159,12 @@ const GitHubSummary = () => {
                       </h3>
                       <p
                         className={`text-3xl font-bold ${
-                          timeframe / 2 >= issueCount ? "text-green-800" : ""
-                        }`}
+                          timeframe / 2 <= issueCount ? "text-green-800" : ""
+                        } text-center`}
                       >
-                        20
+                        {issueCount}
                       </p>
                     </div>
-
-                    {forksCount > 0 && (
-                      <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
-                        <h3 className="text-lg font-semibold">
-                          Number of Forks
-                        </h3>
-                        <p
-                          className={`text-3xl font-bold ${
-                            timeframe / 2 >= forksCount ? "text-green-800" : ""
-                          }`}
-                        >
-                          {forksCount}
-                        </p>
-                      </div>
-                    )}
                   </div>
                   {summary.map((item, index) => (
                     <TypingText key={index} text={item} />
