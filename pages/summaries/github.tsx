@@ -160,7 +160,6 @@ const GitHubSummary = () => {
                   type="submit"
                   className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-green-600 disabled:hover:bg-gray-400"
                   onClick={handleSummarySubmit}
-                  disabled={!timeframe}
                 >
                   Generate Summary
                 </button>
