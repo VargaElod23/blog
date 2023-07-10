@@ -7,34 +7,44 @@ import Layout from "../../components/layout";
 import TextPlaceholder from "../../components/textPlaceholder";
 import useLoader from "../../hooks/useLoader";
 import ErrorContainer from "../../components/error";
+import { RangePicker } from "../../components/rangePicker";
 
 const GitHubSummary = () => {
   const [timeframe, setTimeframe] = useState<number>(0);
-  const [commitCount, setCommitCount] = useState<number>(0);
-  const [prCount, setPrCount] = useState<number>(0);
-  const [contributionCount, setContributionCount] = useState<number>(0);
-  const [issueCount, setIssueCount] = useState<number>(0);
+  const [stats, setStats] = useState<{
+    commits: number;
+    prs: number;
+    contributions: number;
+    issues: number;
+  }>({ commits: 0, prs: 0, contributions: 0, issues: 0 });
   const [summary, setSummary] = useState<string[]>([]);
   const [error, setError] = useState<boolean>(false);
   const { isLoading, setIsLoading } = useLoader();
   const [showSearch, setShowSearch] = useState<boolean>(true);
 
-  const handleSubmit = (e) => {
+  const handleSummarySubmit = (e) => {
     e.preventDefault();
     setShowSearch(false);
-    getStats();
     getSummary();
   };
 
   const getStats = useCallback(async () => {
     try {
       const response = await axios.get(`/api/github/stats?since=${timeframe}`);
-      setCommitCount(response.data.commits);
-      setPrCount(response.data.prs);
-      setContributionCount(response.data.contributions);
-      setIssueCount(response.data.issues);
+      setStats({
+        commits: response.data.commits,
+        prs: response.data.prs,
+        contributions: response.data.contributions,
+        issues: response.data.issues,
+      });
     } catch (error) {
       console.error("Error fetching GitHub stats");
+    }
+  }, [timeframe]);
+
+  useEffect(() => {
+    if (timeframe > 0) {
+      getStats();
     }
   }, [timeframe]);
 
@@ -73,29 +83,83 @@ const GitHubSummary = () => {
               height={500}
             />
           </div>
+          <RangePicker days={timeframe} fetchStats={setTimeframe} />
+          {stats.commits > 0 && (
+            <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 justify-between mb-12">
+              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg  mt-4">
+                <h3 className="text-lg font-semibold">
+                  Total Number of Contributions
+                </h3>
+                <p
+                  className={`text-3xl font-bold  ${
+                    timeframe <= stats.contributions ? "text-green-800" : ""
+                  } text-center`}
+                >
+                  {stats.contributions}
+                </p>
+              </div>
+
+              {stats.prs > 0 ? (
+                <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold">
+                    Number of PRs Created and Closed
+                  </h3>
+                  <p
+                    className={`text-3xl font-bold ${
+                      timeframe / 5 <= stats.prs ? "text-green-800" : ""
+                    } text-center`}
+                  >
+                    {stats.prs}
+                  </p>
+                </div>
+              ) : (
+                <></>
+              )}
+
+              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold">Number of Commits</h3>
+                <p
+                  className={`text-3xl font-bold ${
+                    timeframe <= stats.commits ? "text-green-800" : ""
+                  } text-center`}
+                >
+                  {stats.commits}
+                </p>
+              </div>
+
+              {stats.issues > 0 ? (
+                <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold">
+                    Number of Issues Created/Resolved
+                  </h3>
+                  <p
+                    className={`text-3xl font-bold ${
+                      timeframe / 2 <= stats.issues ? "text-green-800" : ""
+                    } text-center`}
+                  >
+                    {stats.issues}
+                  </p>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          )}
           {showSearch && (
             <div className="flex flex-col items-center justify-center">
               <form
-                onSubmit={handleSubmit}
+                onSubmit={handleSummarySubmit}
                 className="flex flex-col items-center"
               >
                 <div className="mb-4">
                   <label htmlFor="days" className="text-lg">
-                    Amount of days to summarize:
+                    Generate a summary of my GitHub activity:
                   </label>
-                  <input
-                    type="number"
-                    id="days"
-                    value={timeframe}
-                    onChange={(e) => setTimeframe(Number(e.target.value))}
-                    className="border border-gray-400 rounded px-2 py-1 ml-2 dark:text-black"
-                    required
-                  />
                 </div>
                 <button
                   type="submit"
                   className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-green-600 disabled:hover:bg-gray-400"
-                  onClick={handleSubmit}
+                  onClick={handleSummarySubmit}
                   disabled={!timeframe}
                 >
                   Generate Summary
@@ -113,67 +177,6 @@ const GitHubSummary = () => {
             ) : (
               !showSearch && (
                 <>
-                  <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 justify-between mb-12">
-                    <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg  mt-4">
-                      <h3 className="text-lg font-semibold">
-                        Total Number of Contributions
-                      </h3>
-                      <p
-                        className={`text-3xl font-bold  ${
-                          timeframe <= contributionCount ? "text-green-800" : ""
-                        } text-center`}
-                      >
-                        {contributionCount}
-                      </p>
-                    </div>
-
-                    {prCount > 0 ? (
-                      <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
-                        <h3 className="text-lg font-semibold">
-                          Number of PRs Created and Closed
-                        </h3>
-                        <p
-                          className={`text-3xl font-bold ${
-                            timeframe / 5 <= prCount ? "text-green-800" : ""
-                          } text-center`}
-                        >
-                          {prCount}
-                        </p>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-
-                    <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
-                      <h3 className="text-lg font-semibold">
-                        Number of Commits
-                      </h3>
-                      <p
-                        className={`text-3xl font-bold ${
-                          timeframe <= commitCount ? "text-green-800" : ""
-                        } text-center`}
-                      >
-                        {commitCount}
-                      </p>
-                    </div>
-
-                    {issueCount > 0 ? (
-                      <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
-                        <h3 className="text-lg font-semibold">
-                          Number of Issues Created/Resolved
-                        </h3>
-                        <p
-                          className={`text-3xl font-bold ${
-                            timeframe / 2 <= issueCount ? "text-green-800" : ""
-                          } text-center`}
-                        >
-                          {issueCount}
-                        </p>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
                   {summary.map((item, index) => (
                     <TypingText key={index} text={item} />
                   ))}

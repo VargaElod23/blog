@@ -10,7 +10,7 @@ async function fetchGitHubActivity(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const user = process.env.NEXT_PUBLIC_GH_USER || "VargaElod23";
-    const url = `https://api.github.com/users/${user}/events?since=${daysAgo.toISOString()}`;
+    const url = `https://api.github.com/users/${user}/events?page=1&per_page=20`;
     const response = await axios.get(url, {
       headers: {
         Accept: "application/vnd.github.v3+json",
@@ -61,8 +61,6 @@ async function fetchGitHubActivity(req: NextApiRequest, res: NextApiResponse) {
       return returnObject;
     });
     res.json(relevantDetails);
-    // Further processing or handling of the activity data
-    // ...
   } catch (error) {
     console.error("Error fetching GitHub activity:", error);
   }
