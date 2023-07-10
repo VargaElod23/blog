@@ -11,7 +11,6 @@ async function fetchGitHubActivity(req: NextApiRequest, res: NextApiResponse) {
   try {
     const user = process.env.NEXT_PUBLIC_GH_USER || "VargaElod23";
     const url = `https://api.github.com/users/${user}/events?since=${daysAgo.toISOString()}`;
-    console.log(url);
     const response = await axios.get(url, {
       headers: {
         Accept: "application/vnd.github.v3+json",
