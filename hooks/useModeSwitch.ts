@@ -2,26 +2,25 @@ import { useState, useEffect } from "react";
 
 export default function useModeSwitcher() {
   const [theme, setTheme] = useState<string>("");
-  const colorTheme = theme === "dark" ? "light" : "dark";
 
   useEffect(() => {
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (event) => {
-        const colorScheme = event.matches ? "dark" : "light";
-        console.log(colorScheme); // "dark" or "light"
-        setTheme(colorScheme);
-      });
+    const storedTheme = localStorage.getItem("theme");
+    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)")
+      .matches
+      ? "dark"
+      : "light";
+    const initialTheme = storedTheme || colorScheme;
+    setTheme(initialTheme);
   }, []);
 
   useEffect(() => {
     if (theme) {
       const root = window.document.documentElement;
-      root.classList.remove(colorTheme);
+      root.classList.remove(theme === "dark" ? "light" : "dark");
       root.classList.add(theme);
       localStorage.setItem("theme", theme);
     }
-  }, [theme, colorTheme]);
+  }, [theme]);
 
-  return { colorTheme, setTheme };
+  return { colorTheme: theme === "dark" ? "light" : "dark", setTheme };
 }
