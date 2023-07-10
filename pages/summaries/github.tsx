@@ -127,18 +127,22 @@ const GitHubSummary = () => {
                       </p>
                     </div>
 
-                    <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
-                      <h3 className="text-lg font-semibold">
-                        Number of PRs Created and Closed
-                      </h3>
-                      <p
-                        className={`text-3xl font-bold ${
-                          timeframe / 5 <= prCount ? "text-green-800" : ""
-                        } text-center`}
-                      >
-                        {prCount}
-                      </p>
-                    </div>
+                    {prCount > 0 ? (
+                      <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+                        <h3 className="text-lg font-semibold">
+                          Number of PRs Created and Closed
+                        </h3>
+                        <p
+                          className={`text-3xl font-bold ${
+                            timeframe / 5 <= prCount ? "text-green-800" : ""
+                          } text-center`}
+                        >
+                          {prCount}
+                        </p>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
 
                     <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
                       <h3 className="text-lg font-semibold">
@@ -153,18 +157,22 @@ const GitHubSummary = () => {
                       </p>
                     </div>
 
-                    <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
-                      <h3 className="text-lg font-semibold">
-                        Number of Issues Created/Resolved
-                      </h3>
-                      <p
-                        className={`text-3xl font-bold ${
-                          timeframe / 2 <= issueCount ? "text-green-800" : ""
-                        } text-center`}
-                      >
-                        {issueCount}
-                      </p>
-                    </div>
+                    {issueCount > 0 ? (
+                      <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+                        <h3 className="text-lg font-semibold">
+                          Number of Issues Created/Resolved
+                        </h3>
+                        <p
+                          className={`text-3xl font-bold ${
+                            timeframe / 2 <= issueCount ? "text-green-800" : ""
+                          } text-center`}
+                        >
+                          {issueCount}
+                        </p>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   {summary.map((item, index) => (
                     <TypingText key={index} text={item} />
