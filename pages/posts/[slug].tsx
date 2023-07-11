@@ -11,6 +11,7 @@ import Head from "next/head";
 import markdownToHtml from "../../lib/markdownToHtml";
 import type PostType from "../../interfaces/post";
 import Script from "next/script";
+import MoreStories from "../../components/more-stories";
 
 type Props = {
   post: PostType;
@@ -20,7 +21,7 @@ type Props = {
 
 export default function Post({ post, morePosts, preview }: Props) {
   const router = useRouter();
-  const title = `${post.title} | Lifestyle`;
+  const title = `${post.title}`;
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
   }
@@ -61,6 +62,7 @@ export default function Post({ post, morePosts, preview }: Props) {
             </article>
           </>
         )}
+        {morePosts && morePosts.length > 0 && <MoreStories posts={morePosts} />}
       </Container>
     </Layout>
   );

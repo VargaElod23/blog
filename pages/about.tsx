@@ -81,7 +81,7 @@ const AboutPage: React.FC = () => {
                 Clients/Jobs I had before
               </h1>
               <div className="flex justify-center mb-8">
-                <div className="flex space-x-4">
+                <div className="flex space-x-4 flex-wrap gap-3 justify-center">
                   {jobs.map((job) => (
                     <div className="w-48 h-48 bg-gray-200" id={job.alt}>
                       <Link href={job.url} target="_blank">
