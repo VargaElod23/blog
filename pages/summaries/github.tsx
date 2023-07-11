@@ -85,8 +85,8 @@ const GitHubSummary = () => {
           </div>
           <RangePicker days={timeframe} fetchStats={setTimeframe} />
           {stats.commits > 0 && (
-            <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 justify-between mb-12">
-              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg  mt-4">
+            <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 justify-between mb-12 xs:justify-center">
+              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg  mt-4 sm:w-full">
                 <h3 className="text-lg font-semibold">
                   Total Number of Contributions
                 </h3>
@@ -98,9 +98,19 @@ const GitHubSummary = () => {
                   {stats.contributions}
                 </p>
               </div>
+              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold">Number of Commits</h3>
+                <p
+                  className={`text-3xl font-bold ${
+                    timeframe <= stats.commits ? "text-green-800" : ""
+                  } text-center`}
+                >
+                  {stats.commits}
+                </p>
+              </div>
 
               {stats.prs > 0 ? (
-                <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+                <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg sm:min-w-full">
                   <h3 className="text-lg font-semibold">
                     Number of PRs Created and Closed
                   </h3>
@@ -115,17 +125,6 @@ const GitHubSummary = () => {
               ) : (
                 <></>
               )}
-
-              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
-                <h3 className="text-lg font-semibold">Number of Commits</h3>
-                <p
-                  className={`text-3xl font-bold ${
-                    timeframe <= stats.commits ? "text-green-800" : ""
-                  } text-center`}
-                >
-                  {stats.commits}
-                </p>
-              </div>
 
               {stats.issues > 0 ? (
                 <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
