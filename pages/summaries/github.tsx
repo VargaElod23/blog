@@ -218,7 +218,7 @@ const TypingText = ({ text }: { text: string }) => {
   }, [text]);
 
   return (
-    <div className="bg-gray-200 dark:bg-slate-800 text-black dark:text-white p-4 rounded-md">
+    <div className="bg-gray-200 dark:bg-slate-800 text-black dark:text-white p-4 rounded-md flex flex-wrap">
       {displayedText}
     </div>
   );
