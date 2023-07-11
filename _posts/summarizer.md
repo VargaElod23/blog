@@ -22,7 +22,7 @@ To fetch the GitHub activity, we will use the Axios library, which allows us to 
 
 First, we define the date range for the activity retrieval. We then make a GET request to the GitHub API using the provided user's username and the date range as query parameters.
 
-```TypeScript
+```JavaScript
 try {
   const user = process.env.NEXT_PUBLIC_GH_USER;
   const response = await axios.get(
@@ -49,7 +49,7 @@ It is important to note that there are several GitHub APIs you can fetch for a u
 
 Once we have retrieved the GitHub activity data, we need to parse and extract the relevant details for our summary. We use the map function to iterate over each activity item and extract the necessary information such as type, actor, repository URL, commit messages, and organization URL. At the end, we're going to feed this into a LLM that has rate limits so our end goal is to extract the most important information and we end up having a list of objects that look like this for every action:
 
-```TypeScript
+```JavaScript
 const returnObject = {
     type,
     actor,
@@ -65,7 +65,7 @@ At this point, we have the parsed relevant details stored in the returnObject ar
 
 Now comes the soul of it all. Most of us are certainly laughing when we see "Prompt Engineer" positions out there but trust me, this is the most important part of the whole process. Writing a clear and conscise prompt enables our LLM to return us relevant summaries in the format we desire. I have tried many different prompts and I have found that the following one works best for me:
 
-```TypeScript
+```JavaScript
   const summary = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
@@ -85,7 +85,7 @@ Now comes the soul of it all. Most of us are certainly laughing when we see "Pro
 
 Finally, but most importantly, we need a nice way of displaying the summary to our readers. Note that queries to the OpenAI API take some time, especially if your activity is long so you might wanna integrate a skeleton or a loader to make the experience more pleasant. I have used the following code to display the summary:
 
-```TypeScript
+```JavaScript
 <Layout>
       <Container>
         <div className="container mx-auto p-4 pt-16">
