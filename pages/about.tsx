@@ -4,7 +4,6 @@ import Link from "next/link";
 import Layout from "../components/layout";
 import Container from "../components/container";
 import useLoader from "../hooks/useLoader";
-import { useMediaQuery } from "../hooks/useMediaQuery";
 
 const AboutPage: React.FC = () => {
   const { setIsLoading } = useLoader();
@@ -18,9 +17,6 @@ const AboutPage: React.FC = () => {
     // Clear the timeout if the component unmounts
     return () => clearTimeout(timer);
   }, []);
-
-  const isLargeScreen = useMediaQuery(1300);
-  const isMidScreen = useMediaQuery(765);
 
   const jobs = [
     {
@@ -72,8 +68,8 @@ const AboutPage: React.FC = () => {
                     src="/me.png"
                     alt="Profile"
                     className="w-full h-full object-cover"
-                    width={isLargeScreen ? 192 : isMidScreen ? 128 : 50}
-                    height={isLargeScreen ? 192 : isMidScreen ? 128 : 50}
+                    width={192}
+                    height={192}
                   />
                 </div>
               </div>
