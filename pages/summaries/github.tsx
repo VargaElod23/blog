@@ -85,8 +85,8 @@ const GitHubSummary = () => {
           </div>
           <RangePicker days={timeframe} fetchStats={setTimeframe} />
           {stats.commits > 0 && (
-            <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 justify-between mb-12 xs:justify-center">
-              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg  mt-4 sm:w-full">
+            <div className="flex flex-row flex-wrap space-y-4 gap-4 w-full space-x-4 md:justify-between  lg:justify-between xl:justify-between mb-12 justify-center">
+              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg  mt-4">
                 <h3 className="text-lg font-semibold">
                   Total Number of Contributions
                 </h3>
@@ -98,7 +98,7 @@ const GitHubSummary = () => {
                   {stats.contributions}
                 </p>
               </div>
-              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+              <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg mt-4">
                 <h3 className="text-lg font-semibold">Number of Commits</h3>
                 <p
                   className={`text-3xl font-bold ${
@@ -110,7 +110,7 @@ const GitHubSummary = () => {
               </div>
 
               {stats.prs > 0 ? (
-                <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg sm:min-w-full">
+                <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg mt-4">
                   <h3 className="text-lg font-semibold">
                     Number of PRs Created and Closed
                   </h3>
@@ -127,7 +127,7 @@ const GitHubSummary = () => {
               )}
 
               {stats.issues > 0 ? (
-                <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg">
+                <div className="dark:bg-slate-800 bg-gray-200 p-4 rounded-lg mt-4">
                   <h3 className="text-lg font-semibold">
                     Number of Issues Created/Resolved
                   </h3>

@@ -12,6 +12,17 @@ import markdownToHtml from "../../lib/markdownToHtml";
 import type PostType from "../../interfaces/post";
 import Script from "next/script";
 import MoreStories from "../../components/more-stories";
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import "prismjs/plugins/line-numbers/prism-line-numbers";
+import "prismjs/plugins/autoloader/prism-autoloader";
+import "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard";
+import "prismjs/plugins/show-language/prism-show-language";
+
+if (typeof window !== "undefined") {
+  Prism.highlightAll();
+}
 
 type Props = {
   post: PostType;

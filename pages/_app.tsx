@@ -5,6 +5,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import Loader from "../components/loader";
 import useLoader from "../hooks/useLoader";
+import "prismjs/themes/prism-tomorrow.css";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import "../styles/prism-overrides.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();

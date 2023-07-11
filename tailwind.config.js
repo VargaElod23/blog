@@ -8,13 +8,6 @@ module.exports = {
     "./node_modules/flowbite-react/**/*.js",
   ],
   theme: {
-    screens: {
-      xs: { max: "639px" }, // Define your custom 'xs' breakpoint here
-      sm: "640px",
-      md: "768px",
-      lg: "1024px",
-      xl: "1280px",
-    },
     extend: {
       colors: {
         "accent-1": "#FAFAFA",
