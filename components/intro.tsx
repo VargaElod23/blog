@@ -30,10 +30,10 @@ const Intro = () => {
       </section>
       <section>
         <div className="px-8 py-32">
-          <div className="grid gap-8 items-start justify-center">
+          <div className="grid gap-8 items-start justify-center xs:h-4">
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-green-800 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-              <button className="relative px-7 py-4 bg-black dark:bg-gray-200 rounded-lg leading-none flex items-center divide-x divide-white">
+              <button className="relative px-7 py-4 xs:py-2 bg-black dark:bg-gray-200 rounded-lg leading-none flex items-center divide-x divide-white">
                 <span className="flex items-center space-x-5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
