@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { SubscribeSection } from "./subscribeSection";
 
 const Intro = () => {
   return (
@@ -64,6 +65,7 @@ const Intro = () => {
           </div>
         </div>
       </section>
+      <SubscribeSection />
     </>
   );
 };
