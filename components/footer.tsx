@@ -1,4 +1,5 @@
 import Container from "./container";
+import { SocialIcon } from "react-social-icons";
 
 const Footer = () => {
   return (
@@ -22,6 +23,22 @@ const Footer = () => {
               View on GitHub
             </a>
           </div>
+          <SocialIcon
+            url="https://www.linkedin.com/in/vargaelod/"
+            className="min-h-[3.5rem] min-w-[3.5rem] mx-3"
+            target="_blank"
+          />
+          <SocialIcon
+            url="https://github.com/VargaElod23"
+            className="min-h-[3.5rem] min-w-[3.5rem] mx-3 dark:color-white"
+            target="_blank"
+          />
+          <SocialIcon
+            url="https://github.com/Elod23"
+            color="#000000"
+            className="min-h-[3.5rem] min-w-[3.5rem] mx-3"
+            target="_blank"
+          />
         </div>
       </Container>
     </footer>

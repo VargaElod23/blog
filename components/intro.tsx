@@ -18,6 +18,7 @@ const Intro = () => {
             is hard.
           </h4>
         </div>
+
         <div className="px-8 py-32">
           <Image
             src="/me.png"
