@@ -7,10 +7,11 @@ async function summarizeGitHubActivity(
   res: NextApiResponse
 ) {
   res.setHeader("Cache-Control", "s-maxage=86400");
+  const { since } = req.query;
   const activity = await axios.get(
     `${process.env.HOST}${
       process.env.PORT ? `:${process.env.PORT}` : ""
-    }/api/github/activity`
+    }/api/github/activity?since=${since}`
   );
 
   const summary = await openai.createChatCompletion({

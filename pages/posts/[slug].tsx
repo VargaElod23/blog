@@ -11,6 +11,18 @@ import Head from "next/head";
 import markdownToHtml from "../../lib/markdownToHtml";
 import type PostType from "../../interfaces/post";
 import Script from "next/script";
+import MoreStories from "../../components/more-stories";
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import "prismjs/plugins/line-numbers/prism-line-numbers";
+import "prismjs/plugins/autoloader/prism-autoloader";
+import "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard";
+import "prismjs/plugins/show-language/prism-show-language";
+
+if (typeof window !== "undefined") {
+  Prism.highlightAll();
+}
 
 type Props = {
   post: PostType;
@@ -20,7 +32,7 @@ type Props = {
 
 export default function Post({ post, morePosts, preview }: Props) {
   const router = useRouter();
-  const title = `${post.title} | Lifestyle`;
+  const title = `${post.title}`;
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
   }
@@ -36,6 +48,9 @@ export default function Post({ post, morePosts, preview }: Props) {
               <Head>
                 <title>{title}</title>
                 <meta property="og:image" content={post.ogImage.url} />
+                <meta property="og:title" content={post.title} />
+                <meta property="og:description" content={post.excerpt} />
+                <meta property="og:url" content={router.asPath} />
               </Head>
               <Script
                 async
@@ -58,6 +73,7 @@ export default function Post({ post, morePosts, preview }: Props) {
             </article>
           </>
         )}
+        {morePosts && morePosts.length > 0 && <MoreStories posts={morePosts} />}
       </Container>
     </Layout>
   );

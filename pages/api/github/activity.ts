@@ -2,7 +2,7 @@ import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function fetchGitHubActivity(req: NextApiRequest, res: NextApiResponse) {
-  const days = Number(req.query.days);
+  const days = Number(req.query.since);
 
   const currentDate = new Date();
   const daysAgo = new Date();
@@ -10,14 +10,12 @@ async function fetchGitHubActivity(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const user = process.env.NEXT_PUBLIC_GH_USER || "VargaElod23";
-    const response = await axios.get(
-      `https://api.github.com/users/${user}/events?since=${daysAgo}`,
-      {
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-        },
-      }
-    );
+    const url = `https://api.github.com/users/${user}/events?page=1&per_page=10`;
+    const response = await axios.get(url, {
+      headers: {
+        Accept: "application/vnd.github.v3+json",
+      },
+    });
     const activity = response.data;
     const relevantDetails = activity.map((item: any) => {
       const type = item.type;
@@ -63,8 +61,6 @@ async function fetchGitHubActivity(req: NextApiRequest, res: NextApiResponse) {
       return returnObject;
     });
     res.json(relevantDetails);
-    // Further processing or handling of the activity data
-    // ...
   } catch (error) {
     console.error("Error fetching GitHub activity:", error);
   }

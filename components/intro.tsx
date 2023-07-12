@@ -5,7 +5,7 @@ import { SubscribeSection } from "./subscribeSection";
 const Intro = () => {
   return (
     <>
-      <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
+      <section className="flex-col md:flex-row flex items-center md:justify-between mt-56 md:mt-16 mb-16 md:mb-12">
         <div className="relative group">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg blur-xl opacity-70 dark:opacity-35 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
           <h1 className="text-5xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8 bg-white dark:bg-black text-black dark:text-white rounded-lg pb-2">
@@ -31,10 +31,10 @@ const Intro = () => {
       </section>
       <section>
         <div className="px-8 py-32">
-          <div className="grid gap-8 items-start justify-center">
+          <div className="grid gap-8 items-start justify-center xs:h-4">
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-green-800 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-              <button className="relative px-7 py-4 bg-black dark:bg-gray-200 rounded-lg leading-none flex items-center divide-x divide-white">
+              <button className="relative px-7 py-4 xs:py-2 bg-black dark:bg-gray-200 rounded-lg leading-none flex items-center divide-x divide-white">
                 <span className="flex items-center space-x-5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

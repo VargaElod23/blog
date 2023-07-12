@@ -1,0 +1,8 @@
+:root {
+  --highlight-background: inherit;
+  --highlight-width: 0;
+}
+
+.line-numbers span.line-numbers-rows > span {
+  position: relative;
+}
