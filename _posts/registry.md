@@ -1,6 +1,6 @@
 ---
 title: "Enhancing Explorers to understand contract events: ABI Registry"
-excerpt: "Giving users transparency about what's happening on your chain is probably one of the most important features of an explorer. This implementation facilitates ABI uploads with a simple Go implementation that effortlessly stores ABIs on IPFS, generate unique Object IDs (OIDs), and unlock the power of decentralized storage, all while simply wiriting to a veyr basic Solidity smart contract Registrar."
+excerpt: "Giving users transparency about what's happening on your chain is probably one of the most important features of an explorer. This implementation facilitates ABI uploads with a simple Go implementation that effortlessly stores ABIs on IPFS, generate unique Object IDs (OIDs), and unlock the power of decentralized storage, all while simply wiriting to a very basic Solidity smart contract Registrar."
 coverImage: "/assets/blog/registry/registry.png"
 date: "2023-07-11T12:35:07.322Z"
 author:
