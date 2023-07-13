@@ -55,10 +55,10 @@ const AboutPage: React.FC = () => {
   return (
     <Layout>
       <Container>
-        <div className="container mx-auto pb-8 pt-24">
+        <div className="container mx-auto pb-8 pt-32">
           <>
             <h1 className="text-4xl font-bold mb-4">About Me</h1>
-            <p className="text-black dark:text-white mb-4">
+            <p className="text-black text-bold dark:text-white mb-4">
               {`Hello, I'm ${user}, the creator of this blog. Welcome!`}
             </p>
             <div className="container mx-auto py-8">
