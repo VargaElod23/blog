@@ -4,6 +4,7 @@ import { Modal } from "./modal";
 export const Subscribe = () => {
   const [email, setEmail] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
+  const [sendError, setSendError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [isPopupOpen, setPopupOpen] = React.useState(false);
   const [terms, setTerms] = React.useState(false);
@@ -56,8 +57,9 @@ export const Subscribe = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
+      setSendError(error.message);
+      setPopupOpen(true);
       setLoading(false);
-      setEmail("");
       setTerms(false);
       resetEmailErrorAfterTimeout();
     }
@@ -65,7 +67,14 @@ export const Subscribe = () => {
 
   return (
     <div className="max-w-xl">
-      <Modal isOpen={isPopupOpen} setOpen={setPopupOpen} />
+      <Modal
+        isOpen={isPopupOpen}
+        setOpen={() => {
+          setPopupOpen(!isPopupOpen);
+          setSendError("");
+        }}
+        error={sendError}
+      />
       <form onSubmit={handleSubmit}>
         <div className="mb-6">
           <label
