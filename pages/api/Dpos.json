@@ -1,0 +1,887 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"cancelUndelegate(address)": "399ff554",
+			"claimAllRewards(uint32)": "09b72e00",
+			"claimCommissionRewards(address)": "d0eebfe2",
+			"claimRewards(address)": "ef5cfb8c",
+			"confirmUndelegate(address)": "45a02561",
+			"delegate(address)": "5c19a95c",
+			"getDelegations(address,uint32)": "8b49d394",
+			"getTotalDelegation(address)": "fc5e7e09",
+			"getTotalEligibleVotesCount()": "de8e4b50",
+			"getUndelegations(address,uint32)": "4edd9943",
+			"getValidator(address)": "1904bb2e",
+			"getValidatorEligibleVotesCount(address)": "618e3862",
+			"getValidators(uint32)": "19d8024f",
+			"getValidatorsFor(address,uint32)": "724ac6b0",
+			"isValidatorEligible(address)": "f3094e90",
+			"reDelegate(address,address,uint256)": "703812cc",
+			"registerValidator(address,bytes,bytes,uint16,string,string)": "d6fdc127",
+			"setCommission(address,uint16)": "f000322c",
+			"setValidatorInfo(address,string,string)": "0babea4c",
+			"undelegate(address,uint256)": "4d99dd16"
+		}
+	},
+	"abi": [
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "account",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "CommissionRewardsClaimed",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint16",
+					"name": "commission",
+					"type": "uint16"
+				}
+			],
+			"name": "CommissionSet",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "delegator",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "Delegated",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "delegator",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "from",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "to",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "Redelegated",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "account",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "RewardsClaimed",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "delegator",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "UndelegateCanceled",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "delegator",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "UndelegateConfirmed",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "delegator",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "Undelegated",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "ValidatorInfoSet",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "ValidatorRegistered",
+			"type": "event"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "cancelUndelegate",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "batch",
+					"type": "uint32"
+				}
+			],
+			"name": "claimAllRewards",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "end",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "claimCommissionRewards",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "claimRewards",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "confirmUndelegate",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "delegate",
+			"outputs": [],
+			"stateMutability": "payable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "delegator",
+					"type": "address"
+				},
+				{
+					"internalType": "uint32",
+					"name": "batch",
+					"type": "uint32"
+				}
+			],
+			"name": "getDelegations",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "account",
+							"type": "address"
+						},
+						{
+							"components": [
+								{
+									"internalType": "uint256",
+									"name": "stake",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "rewards",
+									"type": "uint256"
+								}
+							],
+							"internalType": "struct DposInterface.DelegatorInfo",
+							"name": "delegation",
+							"type": "tuple"
+						}
+					],
+					"internalType": "struct DposInterface.DelegationData[]",
+					"name": "delegations",
+					"type": "tuple[]"
+				},
+				{
+					"internalType": "bool",
+					"name": "end",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "delegator",
+					"type": "address"
+				}
+			],
+			"name": "getTotalDelegation",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "total_delegation",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getTotalEligibleVotesCount",
+			"outputs": [
+				{
+					"internalType": "uint64",
+					"name": "",
+					"type": "uint64"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "delegator",
+					"type": "address"
+				},
+				{
+					"internalType": "uint32",
+					"name": "batch",
+					"type": "uint32"
+				}
+			],
+			"name": "getUndelegations",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256",
+							"name": "stake",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint64",
+							"name": "block",
+							"type": "uint64"
+						},
+						{
+							"internalType": "address",
+							"name": "validator",
+							"type": "address"
+						},
+						{
+							"internalType": "bool",
+							"name": "validator_exists",
+							"type": "bool"
+						}
+					],
+					"internalType": "struct DposInterface.UndelegationData[]",
+					"name": "undelegations",
+					"type": "tuple[]"
+				},
+				{
+					"internalType": "bool",
+					"name": "end",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "getValidator",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256",
+							"name": "total_stake",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "commission_reward",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint16",
+							"name": "commission",
+							"type": "uint16"
+						},
+						{
+							"internalType": "uint64",
+							"name": "last_commission_change",
+							"type": "uint64"
+						},
+						{
+							"internalType": "address",
+							"name": "owner",
+							"type": "address"
+						},
+						{
+							"internalType": "string",
+							"name": "description",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "endpoint",
+							"type": "string"
+						}
+					],
+					"internalType": "struct DposInterface.ValidatorBasicInfo",
+					"name": "validator_info",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "getValidatorEligibleVotesCount",
+			"outputs": [
+				{
+					"internalType": "uint64",
+					"name": "",
+					"type": "uint64"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "batch",
+					"type": "uint32"
+				}
+			],
+			"name": "getValidators",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "account",
+							"type": "address"
+						},
+						{
+							"components": [
+								{
+									"internalType": "uint256",
+									"name": "total_stake",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "commission_reward",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint16",
+									"name": "commission",
+									"type": "uint16"
+								},
+								{
+									"internalType": "uint64",
+									"name": "last_commission_change",
+									"type": "uint64"
+								},
+								{
+									"internalType": "address",
+									"name": "owner",
+									"type": "address"
+								},
+								{
+									"internalType": "string",
+									"name": "description",
+									"type": "string"
+								},
+								{
+									"internalType": "string",
+									"name": "endpoint",
+									"type": "string"
+								}
+							],
+							"internalType": "struct DposInterface.ValidatorBasicInfo",
+							"name": "info",
+							"type": "tuple"
+						}
+					],
+					"internalType": "struct DposInterface.ValidatorData[]",
+					"name": "validators",
+					"type": "tuple[]"
+				},
+				{
+					"internalType": "bool",
+					"name": "end",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "owner",
+					"type": "address"
+				},
+				{
+					"internalType": "uint32",
+					"name": "batch",
+					"type": "uint32"
+				}
+			],
+			"name": "getValidatorsFor",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "account",
+							"type": "address"
+						},
+						{
+							"components": [
+								{
+									"internalType": "uint256",
+									"name": "total_stake",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "commission_reward",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint16",
+									"name": "commission",
+									"type": "uint16"
+								},
+								{
+									"internalType": "uint64",
+									"name": "last_commission_change",
+									"type": "uint64"
+								},
+								{
+									"internalType": "address",
+									"name": "owner",
+									"type": "address"
+								},
+								{
+									"internalType": "string",
+									"name": "description",
+									"type": "string"
+								},
+								{
+									"internalType": "string",
+									"name": "endpoint",
+									"type": "string"
+								}
+							],
+							"internalType": "struct DposInterface.ValidatorBasicInfo",
+							"name": "info",
+							"type": "tuple"
+						}
+					],
+					"internalType": "struct DposInterface.ValidatorData[]",
+					"name": "validators",
+					"type": "tuple[]"
+				},
+				{
+					"internalType": "bool",
+					"name": "end",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				}
+			],
+			"name": "isValidatorEligible",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator_from",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "validator_to",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "reDelegate",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"internalType": "bytes",
+					"name": "proof",
+					"type": "bytes"
+				},
+				{
+					"internalType": "bytes",
+					"name": "vrf_key",
+					"type": "bytes"
+				},
+				{
+					"internalType": "uint16",
+					"name": "commission",
+					"type": "uint16"
+				},
+				{
+					"internalType": "string",
+					"name": "description",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "endpoint",
+					"type": "string"
+				}
+			],
+			"name": "registerValidator",
+			"outputs": [],
+			"stateMutability": "payable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"internalType": "uint16",
+					"name": "commission",
+					"type": "uint16"
+				}
+			],
+			"name": "setCommission",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"internalType": "string",
+					"name": "description",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "endpoint",
+					"type": "string"
+				}
+			],
+			"name": "setValidatorInfo",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "validator",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "undelegate",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]
+}
