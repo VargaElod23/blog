@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import ApyOracle from "./ApyOracle.json";
+import NodeContinuityOracle from "./NodeContinuityOracle.json";
 import Multicall from "./Multicall.json";
 import { JsonRpcProvider, ethers } from "ethers";
 
@@ -71,44 +71,32 @@ export const networks: Networks = {
   },
 };
 
-export type Call = {
-  target: string;
-  callData: string;
-};
-
 interface ValidatorData {
   address: string;
   pbftCount: number;
   rank: number;
 }
 
-interface ValidatorYield {
-  apy: number;
-  fromBlock: number;
-  toBlock: number;
-}
-
-interface ValidatorDetails {
-  account: string;
+interface ValidatorStats {
+  dagsCount: number;
+  lastDagTimestamp: number;
+  lastPbftTimestamp: number;
+  lastTransactionTimestamp: number;
   pbftCount: number;
-  rank: number;
-  apy: number;
-  fromBlock: number;
-  toBlock: number;
+  transactionsCount: number;
 }
 const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 842;
 
-const getValidatorYield = async (
+const getValidatorStats = async (
   validatorAddress: string
-): Promise<ValidatorYield> => {
-  const url = `${networks[chainId].indexerUrl}/address/${validatorAddress}/yield`;
-  const validatorYield = await axios.get(url);
-  if (validatorYield.status === 200) {
-    const { data } = validatorYield;
+): Promise<ValidatorStats> => {
+  const url = `${networks[chainId].indexerUrl}/address/${validatorAddress}/stats`;
+  const validatorStats = await axios.get(url);
+  if (validatorStats.status === 200) {
+    const { data } = validatorStats;
     return {
-      apy: parseInt((parseFloat(data.yield) * 10000).toString()),
-      fromBlock: parseInt(data.fromBlock),
-      toBlock: parseInt(data.toBlock),
+      ...data,
+      lastTransactionTimestamp: data.lastTransactionTimestamp || 0,
     };
   }
 };
@@ -146,26 +134,18 @@ const fetchValidatorFinalData = async (
 ): Promise<void> => {
   const validatorData = await fetchValidatorStatsForWeek();
   console.log("=============== FETCHING VALIDATORS DONE ===============");
-  const updateCalls: Call[] = [];
   if (!validatorData.length) throw new Error("No validator data found");
   for (const validator of validatorData) {
     console.log(
       `=============== FETCHING STATS FOR ${validator.address} ===============`
     );
-    const validatorYield = await getValidatorYield(validator.address);
-    const validatorDetails: ValidatorDetails = {
-      account: validator.address,
-      pbftCount: validator.pbftCount,
-      rank: validator.rank,
-      ...validatorYield,
-    };
-    const values = [validatorDetails.account, validatorDetails];
+    const validatorStats = await getValidatorStats(validator.address);
 
-    console.log(values);
-
-    const updateCall = await dataFeedContract.updateNodeData(
-      validatorDetails.account,
-      validatorDetails
+    const unixTimestamp = Math.floor(Date.now() / 1000);
+    const updateCall = await dataFeedContract.updateNodeStats(
+      validator.address,
+      unixTimestamp,
+      validatorStats
     );
     console.log(updateCall);
     const tx = await updateCall.wait();
@@ -203,14 +183,14 @@ export default async function handler(
     return;
   }
   const dataFeedWallet = new ethers.Wallet(privkey, provider);
-  const oracleAddress = process.env.APY_ORACLE_TESTNET_ADDRESS;
+  const oracleAddress = process.env.STATS_ORACLE_MAINNET_ADDRESS;
   if (!oracleAddress) {
     res.status(500).end("No oracle contract address found");
     return;
   }
   const dataFeedContract = new ethers.Contract(
     oracleAddress,
-    ApyOracle.abi,
+    NodeContinuityOracle.abi,
     dataFeedWallet
   );
 
