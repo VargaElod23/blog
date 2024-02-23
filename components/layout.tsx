@@ -51,7 +51,7 @@ const Layout = ({ preview, children }: Props) => {
       <Meta />
       <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
         <Alert preview={preview} />
-        <div className="absolute top-0 right-0 p-4">
+        <div className="absolute top-10 right-0 p-4">
           <Switcher />
         </div>
         <FloatingNav navItems={navItems} className="nav" />

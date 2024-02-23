@@ -11,6 +11,7 @@ export default function Switcher() {
   }, [colorTheme]);
 
   const toggleDarkMode = () => {
+    console.log("toggleDarkMode");
     const newDarkSide = !darkSide;
     setDarkSide(newDarkSide);
     setTheme(newDarkSide ? "dark" : "light");

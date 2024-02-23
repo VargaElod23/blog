@@ -7,7 +7,6 @@ import { getAllPosts } from "../lib/api";
 import Head from "next/head";
 import Post from "../interfaces/post";
 import Script from "next/script";
-import { PersonalDescription } from "./home";
 
 type Props = {
   allPosts: Post[];
@@ -35,7 +34,18 @@ export default function Index({ allPosts }: Props) {
   gtag('config', '${process.env.NEXT_PUBLIC_GA_TAG}');`}
         </Script>
         <Container>
-          <PersonalDescription />
+          <Intro />
+          {heroPost && (
+            <HeroPost
+              title={heroPost.title}
+              coverImage={heroPost.coverImage}
+              date={heroPost.date}
+              author={heroPost.author}
+              slug={heroPost.slug}
+              excerpt={heroPost.excerpt}
+            />
+          )}
+          {morePosts.length > 0 && <MoreStories posts={morePosts} />}
         </Container>
       </Layout>
     </>

@@ -1,5 +1,5 @@
 ---
-title: "Create a GitHUB Activity Summarizer using OpenAI API(gpt-3.5-turbo) and GitHub API"
+title: "Create a GitHub Activity Summarizer using OpenAI API(gpt-3.5-turbo) and GitHub API"
 excerpt: "Do you like to follow what your favorite developers are doing? Stay informed and focused on their GitHub activity with GAS, the GitHub Activity Summarizer powered by the OpenAI API (gpt-3.5-turbo)."
 coverImage: "/assets/blog/github-summarizer/cover.png"
 date: "2023-06-20T11:35:07.322Z"
