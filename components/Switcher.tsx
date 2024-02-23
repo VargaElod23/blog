@@ -4,23 +4,16 @@ import useModeSwitcher from "../hooks/useModeSwitch";
 
 export default function Switcher() {
   const { colorTheme, setTheme } = useModeSwitcher();
-  const [darkSide, setDarkSide] = useState(false);
-
-  useEffect(() => {
-    setDarkSide(colorTheme === "dark");
-  }, []);
+  const [darkSide, setDarkSide] = useState(colorTheme === "dark");
 
   useEffect(() => {
     setDarkSide(colorTheme === "dark");
   }, [colorTheme]);
 
   const toggleDarkMode = () => {
-    setDarkSide(!darkSide);
-    if (darkSide) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
+    const newDarkSide = !darkSide;
+    setDarkSide(newDarkSide);
+    setTheme(newDarkSide ? "dark" : "light");
   };
 
   return (

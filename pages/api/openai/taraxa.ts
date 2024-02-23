@@ -20,11 +20,12 @@ async function summarizeOrgGitHubActivity(
   for (const item of activity.data) {
     const chunk = JSON.stringify(item);
     const charCount = chunk.length;
-    if (chunkCharCount + charCount < 2048) {
+    const MAX_CHARACTERS = 10000;
+    if (chunkCharCount + charCount < MAX_CHARACTERS) {
       chunks[i].push(chunk);
       chunkCharCount += charCount;
     } else {
-      console.log(`Chunk ${i} reached 2048 characters`);
+      console.log(`Chunk ${i} reached ${MAX_CHARACTERS} characters`);
       i++;
       chunks[i] = [];
       chunks[i].push(chunk);
@@ -39,22 +40,27 @@ async function summarizeOrgGitHubActivity(
     console.log(
       `Creating summary ${j}. Pushing ${chunk.length} characters to OpenAI`
     );
-    const summary = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "user",
-          content: `Understand the GitHub activity of the orga ${
-            process.env.NEXT_PUBLIC_GH_ORGA
-          }  from the GitHub API input above: \n ${JSON.stringify(
-            chunk
-          )}. If there are multiple actions for the same repo please group them and deliver the updates in an essay form that is easily tweetable and introduce it with: "This week at Taraxa: "`,
-        },
-      ],
-    });
-    summaries.push(summary.data.choices[0].message);
-    console.log(summary.data.choices[0].message);
-    console.log(`Created summary ${j}`);
+    try {
+      const summary = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: `Understand the GitHub activity of the orga ${
+              process.env.NEXT_PUBLIC_GH_ORGA
+            }  from the GitHub API input above: \n ${JSON.stringify(
+              chunk
+            )}. If there are multiple actions for the same repo please group them accordingly. Understand the features the team worked on and and deliver the updates in an essay form that is easily tweetable and introduce it with: "This week at Taraxa: "`,
+          },
+        ],
+      });
+      summaries.push(summary.data.choices[0].message);
+      console.log(summary.data.choices[0].message);
+      console.log(`Created summary ${j}`);
+    } catch (e) {
+      console.error(e.message);
+      res.status(500).json({ error: e.message });
+    }
   }
   res.json(summaries);
 }

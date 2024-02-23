@@ -22,5 +22,5 @@ export default function useModeSwitcher() {
     }
   }, [theme]);
 
-  return { colorTheme: theme === "dark" ? "light" : "dark", setTheme };
+  return { colorTheme: theme === "dark" ? "dark" : "light", setTheme };
 }
