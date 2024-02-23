@@ -7,16 +7,13 @@ import { getAllPosts } from "../lib/api";
 import Head from "next/head";
 import Post from "../interfaces/post";
 import Script from "next/script";
-import { PersonalDescription } from "./home";
+import PersonalDescription from "./home";
 
 type Props = {
   allPosts: Post[];
 };
 
 export default function Index({ allPosts }: Props) {
-  const heroPost = allPosts[0];
-  const morePosts = allPosts.slice(1);
-
   return (
     <>
       <Layout>

@@ -3,9 +3,8 @@ import React from "react";
 import Image from "next/image";
 import { TracingBeam } from "../components/tracing-bream";
 import { useMediaQuery } from "react-responsive";
-import Link from "next/link";
 
-export function PersonalDescription() {
+export default function PersonalDescription() {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   const isTablet = useMediaQuery({ query: "(max-width: 1023px)" });
 
